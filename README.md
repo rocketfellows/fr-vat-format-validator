@@ -1,33 +1,8 @@
-# Country vat format validator template description
-
-## Implementation steps
-
-1. Create repository use template for name: <ISO-3166-standard-alpha2-code>-vat-format-validator
-2. Update composer.json **name** attribute: rocketfellows/<ISO-3166-standard-alpha2-code>-vat-format-validator
-3. Update composer.json with autoload and autoload-dev sections by pattern:
-```php
-   "autoload": {
-        "psr-4": {
-            "rocketfellows\\<ISO-3166-standard-alpha2-code>VatFormatValidator\\": "src/"
-        }
-   },
-   "autoload-dev": {
-        "psr-4": {
-            "rocketfellows\\<ISO-3166-standard-alpha2-code>VatFormatValidator\\tests\\": "tests/"
-        }
-   }
-```
-3. Run docker-deploy.sh
-4. Implement unit test in test/unit directory
-5. Implement direct validator
-
-# Templated readme
-
-# <Country> vat format validator
+# France vat format validator
 
 ![Code Coverage Badge](./badge.svg)
 
-This component provides <Country> vat number format validator.
+This component provides France vat number format validator.
 
 Implementation of interface **rocketfellows\CountryVatFormatValidatorInterface\CountryVatFormatValidatorInterface**
 
@@ -36,17 +11,23 @@ Depends on https://github.com/rocketfellows/country-vat-format-validator-interfa
 ## Installation
 
 ```shell
-composer require rocketfellows/<ISO-3166-standard-alpha2-code>-vat-format-validator
+composer require rocketfellows/fr-vat-format-validator
 ```
 
 ## Usage example
 
-Valid <Country> vat number:
+Valid France vat number:
 
 ```php
-$validator = new <Country>VatFormatValidator();
-$validator->isValid('');
-$validator->isValid('');
+$validator = new FRVatFormatValidator();
+$validator->isValid('FR12345678901');
+$validator->isValid('FRX1234567890');
+$validator->isValid('FR1X234567890');
+$validator->isValid('FRXX234567890');
+$validator->isValid('12345678901');
+$validator->isValid('X1234567890');
+$validator->isValid('1X123456789');
+$validator->isValid('XX123456789');
 ```
 
 Returns:
@@ -54,17 +35,51 @@ Returns:
 ```shell
 true
 true
+true
+true
+true
+true
+true
+true
 ```
 
-Invalid <Country> vat number:
+Invalid France vat number:
 
 ```php
-$validator = new <Country>VatFormatValidator();
-$validator->isValid('');
-$validator->isValid('');
+$validator = new FRVatFormatValidator();
+$validator->isValid('FR123456789011');
+$validator->isValid('FR1234567890');
+$validator->isValid('123456789011');
+$validator->isValid('1234567890');
+$validator->isValid('FRX12345678900');
+$validator->isValid('FRX123456789');
+$validator->isValid('FR1X2345678900');
+$validator->isValid('FR1X23456789');
+$validator->isValid('FRXX2345678900');
+$validator->isValid('FRXX23456789');
+$validator->isValid('X12345678900');
+$validator->isValid('1X1234567890');
+$validator->isValid('1X12345678');
+$validator->isValid('XX1234567890');
+$validator->isValid('XX12345678');
+$validator->isValid('DEXX123456789');
 ```
 
 ```shell
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
+false
 false
 false
 ```
@@ -74,4 +89,3 @@ false
 Welcome to pull requests. If there is a major changes, first please open an issue for discussion.
 
 Please make sure to update tests as appropriate.
-
